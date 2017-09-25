@@ -1,0 +1,12 @@
+<div class="form-group row">
+  <div class="offset-sm-1 col-sm-8">
+    <input type="text" class="form-control" placeholder="Title" [(ngModel)]="title"/>
+  </div>
+  <div class="offset-sm-1 col-sm-2">
+    <button type="submit" class="btn btn-primary" (click)="addTodoItem()">Add TODO</button>        
+  </div>
+  <br/><br/>
+  <div class="offset-sm-1 col-sm-8">
+    <textarea class="form-control" [(ngModel)]="content" placeholder="Description"></textarea>
+  </div>
+</div>
