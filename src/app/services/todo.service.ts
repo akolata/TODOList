@@ -45,6 +45,6 @@ export class TodoService {
       this.todos.splice(
         this.todos.findIndex(
           (td) => td.title === todo.title && td.content === todo.content)
-        );
+        , 1);
   }
 }

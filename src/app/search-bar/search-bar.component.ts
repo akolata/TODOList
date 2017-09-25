@@ -7,9 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchBarComponent implements OnInit {
 
-  constructor() { }
+  title: string;
+
+  constructor() {
+    this.title = '';
+   }
 
   ngOnInit() {
   }
 
+  searchForTodoItemsByTitle() {
+
+    if (this.title !== '') {
+     console.log(this.title);
+    }
+
+  }
 }
