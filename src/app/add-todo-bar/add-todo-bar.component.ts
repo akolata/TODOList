@@ -14,12 +14,20 @@ export class AddTodoBarComponent implements OnInit {
   @Output('addTodo')
   emitter = new EventEmitter();
 
-  constructor() { }
+  constructor() {
+    this.title = '';
+    this.content = '';
+  }
 
   ngOnInit() {
   }
 
   addTodoItem() {
+
+    if (this.title === '') {
+      return;
+    }
+
     const todo = {
       title: this.title,
       content: this.content
