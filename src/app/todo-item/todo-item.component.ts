@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { TodoService } from '../services/todo.service';
+import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
 
 @Component({
   selector: 'app-todo-item',
@@ -13,9 +14,17 @@ export class TodoItemComponent implements OnInit {
   @Input()
   content: string;
 
-  constructor() { }
+  // tslint:disable-next-line:no-output-rename
+  @Output('deleteTodo')
+  emitter = new EventEmitter();
+
+  constructor(private todoService: TodoService) { }
 
   ngOnInit() {
+  }
+
+  delete() {
+    this.emitter.emit(this);
   }
 
 }

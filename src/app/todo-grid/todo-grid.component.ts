@@ -22,4 +22,10 @@ export class TodoGridComponent implements OnInit {
       this.todoService.addTodo(todo);
     }
   }
+
+  delete(todo) {
+    if (todo != null) {
+      this.todoService.deleteTodo(todo);
+    }
+  }
 }

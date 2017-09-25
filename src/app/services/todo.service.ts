@@ -40,4 +40,11 @@ export class TodoService {
 
     this.todos.push(item);
   }
+
+  deleteTodo(todo) {
+      this.todos.splice(
+        this.todos.findIndex(
+          (td) => td.title === todo.title && td.content === todo.content)
+        );
+  }
 }
