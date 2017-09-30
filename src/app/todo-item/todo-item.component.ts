@@ -1,5 +1,5 @@
 import { TodoService } from '../services/todo.service';
-import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 
 @Component({
   selector: 'app-todo-item',
@@ -22,10 +22,6 @@ export class TodoItemComponent implements OnInit {
 
   mode: string;
 
-  // tslint:disable-next-line:no-output-rename
-  @Output('deleteTodo')
-  emitter = new EventEmitter();
-
   constructor(private todoService: TodoService) {
     this.titleBeforeEdition = this.title;
     this.contentBeforeEdition = this.content;
@@ -36,7 +32,6 @@ export class TodoItemComponent implements OnInit {
   }
 
   delete() {
-    // this.emitter.emit(this);
     this.todoService.deleteTodo(this);
   }
 

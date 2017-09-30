@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { TodoService } from '../services/todo.service';
 
 @Component({
@@ -11,10 +11,6 @@ export class AddTodoBarComponent implements OnInit {
   title: string;
   content: string;
 
-  // tslint:disable-next-line:no-output-rename
-  @Output('addTodo')
-  emitter = new EventEmitter();
-
   constructor(private todoService: TodoService) {
     this.title = '';
     this.content = '';
@@ -25,7 +21,7 @@ export class AddTodoBarComponent implements OnInit {
 
   addTodoItem() {
 
-    if (this.title === '') {
+    if (!this.isTodoValid()) {
       return;
     }
 
@@ -34,14 +30,16 @@ export class AddTodoBarComponent implements OnInit {
       content: this.content
     };
 
-    // this.emitter.emit(todo);
-
-    if (todo !== undefined) {
-      this.todoService.addTodo(todo);
-    }
+    this.todoService.addTodo(todo);
 
     this.title = '';
     this.content = '';
   }
 
+  isTodoValid() {
+    if (this.title != null && this.title !== '') {
+      return true;
+    }
+    return false;
+  }
 }
