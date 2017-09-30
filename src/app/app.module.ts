@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule, Routes} from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
@@ -9,6 +10,18 @@ import { NavigationBarComponent } from './navigation-bar/navigation-bar.componen
 import { TodoGridComponent } from './todo-grid/todo-grid.component';
 import { TodoService } from './services/todo.service';
 import { SearchBarComponent } from './search-bar/search-bar.component';
+
+const routesConfig: Routes = [
+  {path: '', redirectTo: 'add', pathMatch: 'full'},
+  {path: 'add', component: AddTodoBarComponent},
+  {path: 'search', component: SearchBarComponent},
+  {path: '**', redirectTo: 'add', pathMatch: 'full'}
+];
+
+const routerModule = RouterModule.forRoot(routesConfig, {
+  enableTracing: true,
+  useHash: true
+});
 
 @NgModule({
   declarations: [
@@ -21,7 +34,8 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    routerModule
   ],
   providers: [
     {

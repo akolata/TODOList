@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
+import { TodoService } from '../services/todo.service';
 
 @Component({
   selector: 'app-add-todo-bar',
@@ -14,7 +15,7 @@ export class AddTodoBarComponent implements OnInit {
   @Output('addTodo')
   emitter = new EventEmitter();
 
-  constructor() {
+  constructor(private todoService: TodoService) {
     this.title = '';
     this.content = '';
   }
@@ -33,7 +34,11 @@ export class AddTodoBarComponent implements OnInit {
       content: this.content
     };
 
-    this.emitter.emit(todo);
+    // this.emitter.emit(todo);
+
+    if (todo !== undefined) {
+      this.todoService.addTodo(todo);
+    }
 
     this.title = '';
     this.content = '';

@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { TodoService } from '../services/todo.service';
+import { TodoItemComponent } from '../todo-item/todo-item.component';
 
 @Component({
   selector: 'app-todo-grid',
@@ -9,6 +10,7 @@ import { TodoService } from '../services/todo.service';
 export class TodoGridComponent implements OnInit {
 
   todos;
+  mode: string;
 
   constructor(private todoService: TodoService) {
     this.todos = this.todoService.getTodos();
@@ -17,15 +19,4 @@ export class TodoGridComponent implements OnInit {
   ngOnInit() {
   }
 
-  add(todo) {
-    if (todo !== undefined && todo !== '') {
-      this.todoService.addTodo(todo);
-    }
-  }
-
-  delete(todo) {
-    if (todo != null) {
-      this.todoService.deleteTodo(todo);
-    }
-  }
 }

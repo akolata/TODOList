@@ -36,7 +36,8 @@ export class TodoItemComponent implements OnInit {
   }
 
   delete() {
-    this.emitter.emit(this);
+    // this.emitter.emit(this);
+    this.todoService.deleteTodo(this);
   }
 
   edit() {
