@@ -1,5 +1,5 @@
 <div class="row" >
   <div class="col-sm-3" *ngFor="let todo of todoItems | async">
-      <app-todo-item [title]="todo.title" [content]="todo.content"></app-todo-item>
+      <app-todo-item [id]="todo.id" [title]="todo.title" [content]="todo.content"></app-todo-item>
   </div>
 </div>

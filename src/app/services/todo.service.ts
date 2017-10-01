@@ -20,21 +20,34 @@ export class TodoService {
     this.http.post(urlAddTodoNote, JSON.stringify(todo), {headers: headers})
     .subscribe((response: Response) => {
       console.log(response); // TODO - display message
+      this.searchAllTodos();
     });
 
-    this.searchAllTodos();
   }
 
   updateTodo(todo) {
     const urlUpdateTodoNote = 'http://localhost:8080/api/todo/update';
     const headers = new Headers({'Content-Type': 'application/json'});
 
+    console.log(todo);
+
     this.http.post(urlUpdateTodoNote, JSON.stringify(todo), {headers: headers})
     .subscribe((response: Response) => {
       console.log(response); // TODO - display message
+      this.searchAllTodos();
     });
 
-    this.searchAllTodos();
+  }
+
+  deleteTodo(todoId) {
+    const urlDeleteTodoNote = 'http://localhost:8080/api/todo/delete?id=';
+
+    this.http.delete(urlDeleteTodoNote + todoId)
+    .subscribe((response: Response) => {
+      console.log(response);
+      this.searchAllTodos(); // TODO display message
+    });
+
   }
 
   searchTodoItemsByTitle(title) {

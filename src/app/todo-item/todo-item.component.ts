@@ -17,6 +17,9 @@ export class TodoItemComponent implements OnInit {
   @Input()
   content: string;
 
+  @Input()
+  id: string;
+
   titleBeforeEdition: string;
   contentBeforeEdition: string;
 
@@ -32,7 +35,7 @@ export class TodoItemComponent implements OnInit {
   }
 
   delete() {
-    // this.todoService.deleteTodo(this);
+    this.todoService.deleteTodo(this.id);
   }
 
   edit() {
@@ -50,7 +53,13 @@ export class TodoItemComponent implements OnInit {
       return;
     }
 
-    this.todoService.updateTodo(this);
+    const todo = {
+      id: this.id,
+      title: this.title,
+      content: this.content
+    };
+
+    this.todoService.updateTodo(todo);
   }
 
   cancelEdition() {
