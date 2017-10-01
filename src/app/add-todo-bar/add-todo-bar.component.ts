@@ -8,36 +8,28 @@ import { TodoService } from '../services/todo.service';
 })
 export class AddTodoBarComponent implements OnInit {
 
-  title: string;
-  content: string;
-
   constructor(private todoService: TodoService) {
-    this.title = '';
-    this.content = '';
   }
 
   ngOnInit() {
+    this.todoService.searchAllTodos();
   }
 
-  addTodoItem() {
-
-    if (!this.isTodoValid()) {
-      return;
-    }
+  addTodoItem(title, content) {
 
     const todo = {
-      title: this.title,
-      content: this.content
+      title: title,
+      content: content
     };
 
-    this.todoService.addTodo(todo);
+    if (this.isTodoValid(todo)) {
+      this.todoService.addTodo(todo);
+    }
 
-    this.title = '';
-    this.content = '';
   }
 
-  isTodoValid() {
-    if (this.title != null && this.title !== '') {
+  isTodoValid(todo) {
+    if (todo.title != null && todo.title !== '') {
       return true;
     }
     return false;

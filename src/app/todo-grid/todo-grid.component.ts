@@ -9,16 +9,14 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
 })
 export class TodoGridComponent implements OnInit {
 
-  todos = [];
-  mode: string;
+  todoItems;
 
   constructor(private todoService: TodoService) {
   }
 
   ngOnInit() {
-    this.todoService.getTodos((todos) => {
-      this.todos = todos;
-    });
+    this.todoItems = this.todoService.getTodoItemsStream();
+    this.todoService.searchAllTodos();
   }
 
 }

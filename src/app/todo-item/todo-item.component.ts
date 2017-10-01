@@ -32,7 +32,7 @@ export class TodoItemComponent implements OnInit {
   }
 
   delete() {
-    this.todoService.deleteTodo(this);
+    // this.todoService.deleteTodo(this);
   }
 
   edit() {
@@ -45,9 +45,12 @@ export class TodoItemComponent implements OnInit {
   save() {
     this.mode = this.MODE_DISPLAY;
 
-    if (this.title === '') {
+    if (this.title === '' || this.title === ' ') {
       this.cancelEdition();
+      return;
     }
+
+    this.todoService.updateTodo(this);
   }
 
   cancelEdition() {

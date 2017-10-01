@@ -6,43 +6,66 @@ import { Subject, Observable } from 'rxjs';
 @Injectable()
 export class TodoService {
 
-  urlFindAllTodoNotes = 'http://localhost:8080/todos';
-  urlAddTodoNote = 'http://localhost:8080/todos/add';
-  todos = [];
+  todoItems = [];
+  todosStream = new Subject<any[]>();
+
 
   constructor(private http: Http) {
   }
 
   addTodo(todo) {
+    const urlAddTodoNote = 'http://localhost:8080/api/todo/add';
     const headers = new Headers({'Content-Type': 'application/json'});
 
-    this.http.post(this.urlAddTodoNote, JSON.stringify(todo), {headers: headers}).subscribe((response: Response) => {
+    this.http.post(urlAddTodoNote, JSON.stringify(todo), {headers: headers})
+    .subscribe((response: Response) => {
       console.log(response); // TODO - display message
+    });
+
+    this.searchAllTodos();
+  }
+
+  updateTodo(todo) {
+    const urlUpdateTodoNote = 'http://localhost:8080/api/todo/update';
+    const headers = new Headers({'Content-Type': 'application/json'});
+
+    this.http.post(urlUpdateTodoNote, JSON.stringify(todo), {headers: headers})
+    .subscribe((response: Response) => {
+      console.log(response); // TODO - display message
+    });
+
+    this.searchAllTodos();
+  }
+
+  searchTodoItemsByTitle(title) {
+    const urlSearchByTitle = 'http://localhost:8080/api/todo/search?title=';
+
+    this.http.get(urlSearchByTitle + title)
+    .map((response: Response) => {
+      return response.json();
+    })
+    .do(todoItemsFromServer => {
+      this.todoItems = todoItemsFromServer;
+    })
+    .subscribe((todoItems) => {
+      this.todosStream.next(this.todoItems);
     });
   }
 
-  deleteTodo(todo) {
-    // TODO - use server to delete note by id
-      this.todos.splice(
-        this.todos.findIndex(
-          (td) => td.title === todo.title && td.content === todo.content)
-        , 1);
+  searchAllTodos() {
+    const urlFindAllTodoNotes = 'http://localhost:8080/api/todo/all';
+
+    this.http.get(urlFindAllTodoNotes)
+    .map((response: Response) => {
+      return response.json();
+    }).do( todoItemsFromServer => {
+      this.todoItems = todoItemsFromServer;
+    }).subscribe((response: Response) => {
+      this.todosStream.next(this.todoItems);
+    });
   }
 
-  getTodosFromServer(callback) {
-
-    this.http.get(this.urlFindAllTodoNotes)
-      .subscribe((response: Response) => {
-        const responseData = response.json();
-        this.todos = responseData;
-
-        callback(this.todos);
-      });
-
+  getTodoItemsStream() {
+    return Observable.from(this.todosStream).startWith(this.todoItems);
   }
-
-  getTodos(callback) {
-    this.getTodosFromServer(callback);
-  }
-
 }

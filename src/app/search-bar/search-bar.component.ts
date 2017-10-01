@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
+import { TodoService } from '../services/todo.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -7,20 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchBarComponent implements OnInit {
 
-  title: string;
-
-  constructor() {
-    this.title = '';
-   }
+  constructor(private todoService: TodoService) {
+  }
 
   ngOnInit() {
   }
 
-  searchForTodoItemsByTitle() {
-
-    if (this.title !== '') {
-     console.log(this.title);
-    }
-
+  searchForTodoItemsByTitle(title) {
+    this.todoService.searchTodoItemsByTitle(title);
   }
 }
