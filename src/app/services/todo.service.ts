@@ -1,50 +1,48 @@
 import { Injectable } from '@angular/core';
+import { Http, Response, Headers } from '@angular/http';
+// tslint:disable-next-line:import-blacklist
+import { Subject, Observable } from 'rxjs';
 
 @Injectable()
 export class TodoService {
 
-  todos = [
-    {
-      title: 'Title1',
-      content: 'Content1'
-    },
-    {
-      title: 'Title2',
-      content: 'Content2'
-    },
-    {
-      title: 'Title3',
-      content: 'Content3'
-    },
-    {
-      title: 'Title4',
-      content: 'Content4'
-    },
-    {
-      title: 'Title5',
-      content: 'Content5'
-    }
-  ];
+  urlFindAllTodoNotes = 'http://localhost:8080/todos';
+  urlAddTodoNote = 'http://localhost:8080/todos/add';
+  todos = [];
 
-  constructor() { }
-
-  getTodos() {
-    return this.todos;
+  constructor(private http: Http) {
   }
 
   addTodo(todo) {
-    const item = {
-      title: todo.title,
-      content: todo.content
-    };
+    const headers = new Headers({'Content-Type': 'application/json'});
 
-    this.todos.push(item);
+    this.http.post(this.urlAddTodoNote, JSON.stringify(todo), {headers: headers}).subscribe((response: Response) => {
+      console.log(response); // TODO - display message
+    });
   }
 
   deleteTodo(todo) {
+    // TODO - use server to delete note by id
       this.todos.splice(
         this.todos.findIndex(
           (td) => td.title === todo.title && td.content === todo.content)
         , 1);
   }
+
+  getTodosFromServer(callback) {
+
+    this.http.get(this.urlFindAllTodoNotes)
+      .subscribe((response: Response) => {
+        const responseData = response.json();
+        this.todos = responseData;
+
+        callback(this.todos);
+      });
+
+  }
+
+  getTodos(callback) {
+    this.getTodosFromServer(callback);
+  }
+
 }
